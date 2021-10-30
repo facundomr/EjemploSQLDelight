@@ -4,6 +4,13 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    id("com.squareup.sqldelight")
+}
+
+sqldelight {
+    database("AppDatabase") {
+        packageName = "com.example.db"
+    }
 }
 
 version = "1.0"
@@ -28,21 +35,33 @@ kotlin {
     }
     
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:runtime:1.5.2")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:android-driver:1.5.2")
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
             }
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:1.5.2")
+            }
+        }
         val iosTest by getting
     }
 }
